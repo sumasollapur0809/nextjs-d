@@ -16,9 +16,12 @@ export async function fetchRevenue() {
     // Artificially delay response for 3 seconds
     console.log('Fetching revenue data...');
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    const data = await sql<Revenue[]>`SELECT * FROM revenue`;
+    
+    // 👇 FIX: Remove <Revenue[]> and cast with 'as Revenue[]' instead
+    const data = await sql`SELECT * FROM revenue`;
+    
     console.log('Data fetch completed after 3 seconds.');
-    return data;
+    return data as Revenue[];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch revenue data.');
